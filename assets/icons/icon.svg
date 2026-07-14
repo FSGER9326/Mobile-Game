@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ashen Crown icon">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#303c55"/>
+      <stop offset="1" stop-color="#0b0f18"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f1d8a4"/>
+      <stop offset="1" stop-color="#b48c4f"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="88" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="188" fill="none" stroke="#c9a568" stroke-width="8" opacity=".55"/>
+  <path d="M92 314 112 165l91 112 53-153 53 153 91-112 20 149Z" fill="url(#gold)" stroke="#ffe8ba" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M91 314h330v75H91z" fill="url(#gold)" stroke="#ffe8ba" stroke-width="7"/>
+  <path d="m257 105-23 111 41 38-31 91 35 82" fill="none" stroke="#3d3029" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m256 324 31 27-31 27-31-27Z" fill="#bcecff" stroke="#fff0ca" stroke-width="6"/>
+</svg>
