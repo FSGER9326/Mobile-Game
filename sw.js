@@ -1,10 +1,17 @@
-const CACHE = 'ashen-crown-v2';
+const CACHE = 'ashen-crown-v3';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './manifest.webmanifest',
-  './src/game.js',
+  './src/game-core.js',
+  './src/world-a.js',
+  './src/world-b.js',
+  './src/world-c.js',
+  './src/battle-a.js',
+  './src/battle-b.js',
+  './src/ui-a.js',
+  './src/ui-b.js',
   './assets/icons/icon.svg'
 ];
 
