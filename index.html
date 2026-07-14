@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#111522" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="screen-orientation" content="landscape" />
+  <title>Ashen Crown: Echoes of Veyra</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icons/icon.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/icon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app" aria-label="Ashen Crown game">
+    <canvas id="game-canvas" width="960" height="540" aria-label="Game world"></canvas>
+
+    <section id="hud" class="hud hidden" aria-live="polite">
+      <div class="hud-top">
+        <div id="party-hud" class="party-hud"></div>
+        <div id="objective-hud" class="objective-hud frame"></div>
+        <button id="menu-button" class="round-button menu-button" aria-label="Open menu">☰</button>
+      </div>
+
+      <div id="location-banner" class="location-banner hidden"></div>
+      <div id="toast" class="toast hidden"></div>
+
+      <div class="mobile-controls" aria-label="Touch controls">
+        <div class="dpad">
+          <button class="move-button up" data-direction="up" aria-label="Move up">▲</button>
+          <button class="move-button left" data-direction="left" aria-label="Move left">◀</button>
+          <button class="move-button right" data-direction="right" aria-label="Move right">▶</button>
+          <button class="move-button down" data-direction="down" aria-label="Move down">▼</button>
+        </div>
+        <div class="action-cluster">
+          <button id="dash-button" class="round-button dash-button" aria-label="Dash">RUN</button>
+          <button id="action-button" class="round-button action-button" aria-label="Interact">✦</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="overlay" class="overlay"></section>
+
+    <div id="rotate-notice" class="rotate-notice">
+      <div class="frame">
+        <h2>Rotate your device</h2>
+        <p>Ashen Crown is designed for landscape play.</p>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="src/game.js"></script>
+</body>
+</html>
