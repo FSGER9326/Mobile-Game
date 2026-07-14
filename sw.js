@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v4';
+const CACHE = 'ashen-crown-v5';
 const ASSETS = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const ASSETS = [
   './manifest.webmanifest',
   './src/game-core.js',
   './src/world-a.js',
+  './src/visual-upgrade.js',
   './src/runtime-fixes.js',
   './src/world-b.js',
   './src/world-c.js',
