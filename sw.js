@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v12-creator-art';
+const CACHE = 'ashen-crown-v13-protagonist-identity';
 const ASSETS = [
   './',
   './index.html',
