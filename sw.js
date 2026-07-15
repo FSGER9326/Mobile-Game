@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v20-southroad-weapons';
+const CACHE = 'ashen-crown-v21-southroad-migration';
 const ASSETS = [
   './',
   './index.html',
