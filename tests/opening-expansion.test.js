@@ -42,6 +42,9 @@ const migrated = context.normalizeState({ version: 2, mainStage: 4, map: 'villag
 assert.equal(migrated.mainStage, 5);
 assert.equal(migrated.version, 3);
 assert.equal(migrated.flags.openingExpansionVersion, 1);
+const legacy = context.migrateOldSave({ version: 1, mainStage: 4, map: 'village' });
+assert.equal(legacy.mainStage, 5);
+assert.equal(legacy.flags.openingExpansionVersion, 1);
 const fresh = context.newState();
 assert.equal(fresh.inventory.potion, 5);
 assert.equal(fresh.inventory.bomb, 1);
