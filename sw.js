@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v14-save-recovery';
+const CACHE = 'ashen-crown-v15-safe-spawn-recovery';
 const ASSETS = [
   './',
   './index.html',
