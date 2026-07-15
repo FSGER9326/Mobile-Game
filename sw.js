@@ -1,16 +1,16 @@
-const CACHE = 'ashen-crown-v16-mobile-creator-layout';
+const CACHE = 'ashen-crown-v17-vector-art';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './battle-polish.css',
   './creator.css',
+  './art-v3.css',
   './manifest.webmanifest',
   './src/game-core.js',
   './src/world-a.js',
-  './src/visual-upgrade.js',
   './src/runtime-fixes.js',
-  './src/world-art-v2.js',
+  './src/vector-art-v3.js',
   './src/world-b.js',
   './src/world-c.js',
   './src/battle-a.js',
