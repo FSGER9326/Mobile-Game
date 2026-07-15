@@ -31,10 +31,11 @@
 
   function elementForAction(action) {
     if (action?.type === 'skill') return SKILL_ELEMENTS[action.skillId] || (SKILLS[action.skillId]?.magic ? 'moon' : 'physical');
-    if (action?.hero?.id === 'lyra') return 'moon';
-    if (action?.hero?.id === 'rowan') return 'thorn';
-    if (action?.hero?.id === 'mira') return 'ward';
-    if (action?.hero?.id === 'kael') return 'ember';
+    const identity = action?.hero?.templateId || action?.hero?.id;
+    if (identity === 'lyra') return 'moon';
+    if (identity === 'rowan') return 'thorn';
+    if (identity === 'mira') return 'ward';
+    if (identity === 'kael') return 'ember';
     return 'physical';
   }
 
