@@ -77,7 +77,8 @@
   const baseEnemyCard = enemyCard;
   enemyCard = function(enemy, index, targetable = false) {
     const card = baseEnemyCard(enemy, index, targetable);
-    return card.replace('</div>', `${affinityBadges(enemy)}</div>`);
+    const close = card.lastIndexOf('</div>');
+    return close < 0 ? card : `${card.slice(0, close)}${affinityBadges(enemy)}${card.slice(close)}`;
   };
 
   const baseHandleBattleCommand = handleBattleCommand;
