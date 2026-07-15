@@ -40,6 +40,49 @@
     };
   }
 
+  function occupiedRecoveryTiles(mapId) {
+    const occupied = new Set();
+    const add = entity => occupied.add(`${entity.x},${entity.y}`);
+    (NPCS[mapId] || []).forEach(add);
+    (ENCOUNTERS[mapId] || []).forEach(add);
+    return occupied;
+  }
+
+  function isSafeRecoveryPosition(mapId, x, y, occupied = occupiedRecoveryTiles(mapId)) {
+    const map = MAPS[mapId];
+    if (!map || y < 0 || y >= map.grid.length || x < 0 || x >= map.grid[0].length) return false;
+    const tile = map.grid[y][x];
+    return tile !== '#' && tile !== '~' && !occupied.has(`${x},${y}`);
+  }
+
+  function nearestSafePosition(mapId, requestedX, requestedY, fallbackX, fallbackY) {
+    const map = MAPS[mapId];
+    const occupied = occupiedRecoveryTiles(mapId);
+    const clampX = value => Math.min(map.grid[0].length - 1, Math.max(0, Math.round(value)));
+    const clampY = value => Math.min(map.grid.length - 1, Math.max(0, Math.round(value)));
+    const start = { x: clampX(requestedX), y: clampY(requestedY) };
+    if (isSafeRecoveryPosition(mapId, start.x, start.y, occupied)) return start;
+
+    const queue = [start];
+    const seen = new Set([`${start.x},${start.y}`]);
+    const directions = [[0, -1], [-1, 0], [1, 0], [0, 1]];
+    for (let index = 0; index < queue.length; index += 1) {
+      const current = queue[index];
+      for (const [dx, dy] of directions) {
+        const next = { x: current.x + dx, y: current.y + dy };
+        const key = `${next.x},${next.y}`;
+        if (seen.has(key) || next.x < 0 || next.y < 0 || next.y >= map.grid.length || next.x >= map.grid[0].length) continue;
+        if (isSafeRecoveryPosition(mapId, next.x, next.y, occupied)) return next;
+        seen.add(key);
+        queue.push(next);
+      }
+    }
+
+    const fallback = { x: clampX(fallbackX), y: clampY(fallbackY) };
+    if (isSafeRecoveryPosition(mapId, fallback.x, fallback.y, occupied)) return fallback;
+    throw new Error(`Map ${mapId} has no safe recovery position.`);
+  }
+
   function sanitizeRawState(raw) {
     if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('Save root is not an object.');
     const fallback = newState();
@@ -49,12 +92,14 @@
       .filter(Boolean)
       .slice(0, 4);
     const safeParty = party.length ? party : fallback.party;
-    const mapData = MAPS[map];
+    const requestedX = finiteNumber(raw.x, fallback.x);
+    const requestedY = finiteNumber(raw.y, fallback.y);
+    const position = nearestSafePosition(map, requestedX, requestedY, fallback.x, fallback.y);
     return {
       ...raw,
       map,
-      x: Math.round(finiteNumber(raw.x, fallback.x, 0, mapData.grid[0].length - 1)),
-      y: Math.round(finiteNumber(raw.y, fallback.y, 0, mapData.grid.length - 1)),
+      x: position.x,
+      y: position.y,
       mainStage: Math.round(finiteNumber(raw.mainStage, 0, 0, 99)),
       shards: Math.round(finiteNumber(raw.shards, 0, 0, 3)),
       sideScout: Math.round(finiteNumber(raw.sideScout, 0, 0, 99)),
@@ -115,5 +160,5 @@
     return false;
   };
 
-  window.AshenSaveRecovery = { sanitizeRawState, sanitizeHero };
+  window.AshenSaveRecovery = { sanitizeRawState, sanitizeHero, isSafeRecoveryPosition, nearestSafePosition };
 })();
