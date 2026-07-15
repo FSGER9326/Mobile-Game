@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v8';
+const CACHE = 'ashen-crown-v9';
 const ASSETS = [
   './',
   './index.html',
@@ -15,6 +15,7 @@ const ASSETS = [
   './src/battle-b.js',
   './src/battle-tactics.js',
   './src/battle-stage.js',
+  './src/battle-effects.js',
   './src/ui-a.js',
   './src/ui-b.js',
   './assets/icons/icon.svg'
