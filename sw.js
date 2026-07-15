@@ -1,9 +1,10 @@
-const CACHE = 'ashen-crown-v18-brace-fix';
+const CACHE = 'ashen-crown-v19-target-intents';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './battle-polish.css',
+  './battle-intents.css',
   './creator.css',
   './art-v3.css',
   './manifest.webmanifest',
