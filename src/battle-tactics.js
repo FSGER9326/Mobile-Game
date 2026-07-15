@@ -1,6 +1,7 @@
 (() => {
   const baseStartBattle = window.startBattle;
   const baseCalculateDamage = window.calculateDamage;
+  const baseEnemyCard = window.enemyCard;
 
   if (typeof baseStartBattle !== 'function' || typeof baseCalculateDamage !== 'function') return;
 
@@ -20,11 +21,47 @@
     return { type: 'attack', ...INTENTS.attack };
   }
 
+  function chooseIntentTarget(enemyIndex, round) {
+    const targets = livingHeroes();
+    if (!targets.length) return null;
+    return targets[(enemyIndex + round - 1) % targets.length];
+  }
+
   function planEnemyIntents() {
     if (!battle?.enemies) return;
     battle.enemies.forEach((enemy, index) => {
-      if (enemy.hp > 0) enemy.intent = chooseIntent(enemy, index, battle.round);
+      if (enemy.hp <= 0) return;
+      const intent = chooseIntent(enemy, index, battle.round);
+      if (!['guard', 'wave'].includes(intent.type)) {
+        const target = chooseIntentTarget(index, battle.round);
+        intent.targetHeroId = target?.id || null;
+        intent.targetName = target?.name || null;
+      }
+      enemy.intent = intent;
     });
+  }
+
+  function resolveIntentTarget(intent, targets) {
+    if (!targets.length) return null;
+    return targets.find(hero => hero.id === intent.targetHeroId) || targets[0];
+  }
+
+  function intentMarkup(enemy) {
+    const intent = enemy.intent;
+    if (!intent || enemy.hp <= 0) return '';
+    const target = intent.type === 'wave'
+      ? 'All allies'
+      : intent.type === 'guard'
+        ? 'Self'
+        : intent.targetName || 'Unknown target';
+    return `<div class="enemy-intent intent-${intent.tone || intent.type}" aria-label="Intent: ${intent.label}, target ${target}"><span class="intent-icon">${intent.icon || '◆'}</span><span><b>${intent.label}</b><small>${target}</small></span></div>`;
+  }
+
+  if (typeof baseEnemyCard === 'function') {
+    window.enemyCard = function tacticalEnemyCard(enemy, index, targetable = false) {
+      const card = baseEnemyCard(enemy, index, targetable);
+      return card.replace(/<\/div>$/, `${intentMarkup(enemy)}</div>`);
+    };
   }
 
   window.startBattle = function tacticalStartBattle(encounter) {
@@ -70,7 +107,7 @@
         continue;
       }
 
-      const target = targets[Math.floor(Math.random() * targets.length)];
+      const target = resolveIntentTarget(intent, targets);
       const weakened = enemy.statuses.weaken ? 0.72 : 1;
       const guarded = target.statuses.guard ? 0.46 : 1;
       const power = intent.type === 'heavy' ? 1.38 : intent.type === 'venom' ? 0.92 : 1;
@@ -117,5 +154,5 @@
     renderBattle();
   };
 
-  window.AshenBattleTactics = { planEnemyIntents, chooseIntent };
+  window.AshenBattleTactics = { planEnemyIntents, chooseIntent, chooseIntentTarget, resolveIntentTarget, intentMarkup };
 })();
