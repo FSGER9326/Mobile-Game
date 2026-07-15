@@ -32,18 +32,17 @@
   document.head.appendChild(style);
 
   let previousLog = '';
-  let pendingFx = null;
 
   function classify(log) {
     if (!log || log === previousLog) return null;
     const lower = log.toLowerCase();
     const numbers = [...log.matchAll(/(?:for|restores?|suffers?|dealing)\s+(\d+)/gi)].map(match => Number(match[1]));
     const amount = numbers.length ? numbers[numbers.length - 1] : null;
-    if (lower.includes('restores') || lower.includes('potion') || lower.includes('raises')) return { kind: 'heal', amount, label: amount ? `+${amount}` : 'RESTORE' };
-    if (lower.includes('poison')) return { kind: 'poison', amount, label: amount ? `-${amount}` : 'POISON' };
-    if (lower.includes('guard') || lower.includes('brace') || lower.includes('weaken')) return { kind: 'status', amount, label: lower.includes('weaken') ? 'WEAKENED' : 'GUARD' };
-    if (lower.includes('uses') || lower.includes('wave') || lower.includes('spell')) return { kind: 'magic', amount, label: amount ? `-${amount}` : 'ARCANA' };
-    if (lower.includes('damage') || lower.includes('hits') || lower.includes('strikes')) return { kind: 'hit', amount, label: amount ? `-${amount}` : 'HIT' };
+    if (lower.includes('restores') || lower.includes('potion') || lower.includes('raises')) return { kind: 'heal', label: amount ? `+${amount}` : 'RESTORE' };
+    if (lower.includes('poison')) return { kind: 'poison', label: amount ? `-${amount}` : 'POISON' };
+    if (lower.includes('guard') || lower.includes('brace') || lower.includes('weaken')) return { kind: 'status', label: lower.includes('weaken') ? 'WEAKENED' : 'GUARD' };
+    if (lower.includes('uses') || lower.includes('wave') || lower.includes('spell')) return { kind: 'magic', label: amount ? `-${amount}` : 'ARCANA' };
+    if (lower.includes('damage') || lower.includes('hits') || lower.includes('strikes')) return { kind: 'hit', label: amount ? `-${amount}` : 'HIT' };
     return null;
   }
 
@@ -102,8 +101,8 @@
   const baseRenderBattle = window.renderBattle;
   if (typeof baseRenderBattle === 'function') {
     window.renderBattle = function enhancedBattleRender(...args) {
-      const currentLog = window.battle?.log || '';
-      pendingFx = classify(currentLog);
+      const currentLog = battle?.log || '';
+      const pendingFx = classify(currentLog);
       previousLog = currentLog;
       const result = baseRenderBattle.apply(this, args);
       if (pendingFx) requestAnimationFrame(() => playFx(pendingFx));
