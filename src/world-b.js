@@ -1,15 +1,19 @@
 function updateHud() {
   if (!state) return;
-  partyHud.innerHTML = state.party.map(hero => {
+  partyHud.innerHTML = state.party.map((hero, index) => {
     const hpPct = Math.max(0, Math.min(100, hero.hp / hero.maxHp * 100));
     const mpPct = Math.max(0, Math.min(100, hero.mp / hero.maxMp * 100));
     return `<div class="hero-chip frame">
-      <div class="hero-line"><span class="hero-name">${hero.name}</span><span class="level">Lv ${hero.level}</span></div>
-      <div class="hero-line"><span>${hero.hp}/${hero.maxHp}</span><span>${hero.mp}/${hero.maxMp}</span></div>
-      <div class="bar"><i style="width:${hpPct}%"></i></div>
-      <div class="bar mp"><i style="width:${mpPct}%"></i></div>
+      <canvas class="hero-portrait" width="52" height="52" data-hero-index="${index}" aria-label="${hero.name} portrait"></canvas>
+      <div class="hero-chip-body">
+        <div class="hero-line"><span class="hero-name">${hero.name}</span><span class="level">Lv ${hero.level}</span></div>
+        <div class="hero-line"><span>${hero.hp}/${hero.maxHp}</span><span>${hero.mp}/${hero.maxMp}</span></div>
+        <div class="bar"><i style="width:${hpPct}%"></i></div>
+        <div class="bar mp"><i style="width:${mpPct}%"></i></div>
+      </div>
     </div>`;
   }).join('');
+  window.AshenArt?.drawHudPortraits?.();
   objectiveHud.innerHTML = `<b>Objective</b><br>${objectiveText()}`;
 }
 
