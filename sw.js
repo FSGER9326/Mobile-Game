@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v19-target-intents';
+const CACHE = 'ashen-crown-v20-southroad-weapons';
 const ASSETS = [
   './',
   './index.html',
@@ -25,6 +25,8 @@ const ASSETS = [
   './src/character-creator.js',
   './src/save-recovery.js',
   './src/ui-b.js',
+  './src/opening-expansion.js',
+  './src/weapon-art-v4.js',
   './assets/icons/icon.svg'
 ];
 
