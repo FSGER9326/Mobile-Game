@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v15-safe-spawn-recovery';
+const CACHE = 'ashen-crown-v16-mobile-creator-layout';
 const ASSETS = [
   './',
   './index.html',
