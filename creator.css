@@ -1,0 +1,54 @@
+/* Character creator and major readability changes. */
+#game-canvas { image-rendering: auto; }
+.creator-screen { background: radial-gradient(circle at 24% 30%, rgba(71,91,121,.32), rgba(4,7,12,.92) 65%), linear-gradient(135deg, #101826, #090c14); }
+.creator-window { width: min(1180px, 97vw); max-height: 95vh; padding: clamp(12px, 2vw, 22px); overflow: auto; }
+.creator-header { display: flex; justify-content: space-between; gap: 18px; align-items: start; margin-bottom: 12px; }
+.creator-header h1 { margin: 2px 0 4px; font-size: clamp(25px, 3.5vw, 42px); }
+.creator-header p { margin: 0; color: var(--muted); max-width: 720px; }
+.creator-kicker { color: #8eb4d9; letter-spacing: .18em; font-size: 11px; font-weight: 700; }
+.creator-layout { display: grid; grid-template-columns: minmax(230px, .72fr) minmax(520px, 1.65fr); gap: 16px; }
+.creator-preview-panel { position: sticky; top: 0; align-self: start; display: grid; gap: 8px; }
+#creator-preview { width: 100%; max-height: min(58vh, 430px); border: 1px solid rgba(201,165,104,.6); background: #0b101a; box-shadow: inset 0 0 30px rgba(0,0,0,.62), 0 12px 28px rgba(0,0,0,.42); }
+.creator-summary { text-align: center; display: grid; gap: 3px; padding: 10px; background: rgba(7,10,17,.75); border: 1px solid rgba(201,165,104,.35); }
+.creator-summary h2 { margin: 0; }
+.creator-summary b { color: var(--gold-bright); }
+.creator-summary span, .creator-summary small { color: var(--muted); }
+.creator-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; align-content: start; }
+.creator-section { padding: 10px; border: 1px solid rgba(201,165,104,.28); background: rgba(6,9,15,.58); min-width: 0; }
+.creator-section > h3, .creator-section > label { display: block; margin: 0 0 7px; color: var(--gold-bright); font-weight: 700; }
+.creator-section input { width: 100%; min-height: 44px; padding: 8px 11px; border-radius: 6px; border: 1px solid #777063; background: #111725; color: #fff3dc; font: 700 18px Georgia, serif; touch-action: manipulation; user-select: text; }
+.creator-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.creator-choice, .creator-card { border: 1px solid #575d70; border-radius: 7px; background: linear-gradient(180deg, #252c3d, #151a25); color: #ddd7cd; padding: 8px 10px; min-height: 40px; touch-action: manipulation; }
+.creator-choice.selected, .creator-card.selected { border-color: var(--gold-bright); background: linear-gradient(180deg, #554936, #28241f); color: #fff0c8; box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
+.creator-class-grid, .creator-origin-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.creator-card { text-align: left; display: grid; gap: 2px; }
+.creator-card b { color: var(--gold-bright); }
+.creator-card span { color: #aab8c9; font-size: 12px; }
+.creator-card small { color: var(--muted); font-weight: 400; line-height: 1.25; }
+.creator-card.compact small { display: none; }
+.swatch-section { min-height: 75px; }
+.swatches { display: flex; gap: 7px; flex-wrap: wrap; }
+.swatch { width: 34px; height: 34px; padding: 0; border-radius: 50%; border: 2px solid #111722; background: var(--swatch); box-shadow: 0 0 0 1px #60687a; touch-action: manipulation; }
+.swatch.selected { box-shadow: 0 0 0 3px var(--gold-bright); transform: scale(.88); }
+.creator-statline { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.creator-statline span { padding: 8px; text-align: center; border: 1px solid rgba(201,165,104,.28); background: rgba(13,18,28,.78); color: var(--muted); }
+.creator-statline b { display: block; color: var(--gold-bright); font-size: 17px; }
+.creator-begin { grid-column: 1 / -1; min-height: 54px; font-size: 18px; background: linear-gradient(180deg, #6f5633, #30271e); }
+@media (max-width: 840px), (max-height: 520px) {
+  .creator-window { padding: 10px; }
+  .creator-header p { display: none; }
+  .creator-layout { grid-template-columns: 190px minmax(420px, 1fr); gap: 9px; }
+  #creator-preview { max-height: 310px; }
+  .creator-summary { padding: 6px; font-size: 12px; }
+  .creator-options { gap: 6px; }
+  .creator-section { padding: 7px; }
+  .creator-card small { display: none; }
+  .creator-choice, .creator-card { min-height: 34px; padding: 6px 7px; font-size: 12px; }
+  .swatch { width: 27px; height: 27px; }
+  .creator-statline span { padding: 5px; font-size: 10px; }
+  .creator-statline b { font-size: 14px; }
+}
+@media (max-width: 650px) {
+  .creator-layout { grid-template-columns: 150px minmax(390px, 1fr); }
+  .creator-class-grid, .creator-origin-grid { grid-template-columns: 1fr 1fr; }
+}
