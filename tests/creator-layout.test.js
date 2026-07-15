@@ -5,7 +5,7 @@ const css = fs.readFileSync('creator.css', 'utf8');
 
 function ruleContains(selector, expected) {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const match = css.match(new RegExp(`${escaped}\\s*\\{([^}]]+)\\}`, 's'));
+  const match = css.match(new RegExp(`${escaped}\\s*\\{([^}]+)\\}`, 's'));
   assert(match, `Missing CSS rule for ${selector}`);
   assert(match[1].includes(expected), `${selector} must include: ${expected}`);
 }
