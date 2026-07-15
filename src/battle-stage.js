@@ -23,7 +23,7 @@
     .enemy-card[data-kind*="wolf"]::before,.enemy-card[data-kind*="hound"]::before{clip-path:polygon(0 30%,18% 0,35% 20%,70% 12%,100% 36%,83% 58%,90% 100%,55% 76%,18% 95%,25% 58%)}
     .enemy-card[data-kind*="shade"]::before{background:radial-gradient(circle at 40% 30%,#d6b3ff 0 4%,transparent 5%),radial-gradient(circle at 62% 30%,#d6b3ff 0 4%,transparent 5%),linear-gradient(#56406f,#171221);box-shadow:0 0 25px rgba(153,104,211,.55)}
     .enemy-card[data-kind*="warden"]::before,.enemy-card.boss::before{width:82px;height:82px;background:radial-gradient(circle at 40% 27%,#ff835c 0 4%,transparent 5%),radial-gradient(circle at 62% 27%,#ff835c 0 4%,transparent 5%),linear-gradient(145deg,#766550,#28231e);box-shadow:0 0 28px rgba(185,92,56,.48)}
-    .battle-intent{position:absolute;right:8px;top:8px;padding:3px 7px;border-radius:999px;background:#181c24;border:1px solid #9a8359;color:#f2d49e;font-size:.68rem;letter-spacing:.04em}
+    .battle-intent{position:absolute;right:8px;top:8px;padding:3px 7px;border-radius:999px;background:#181c24;border:1px solid #9a8359;color:#f2d49e;font-size:.68rem;letter-spacing:.04em}.battle-intent[data-tone="heavy"]{border-color:#c56b52;color:#ffc0a6}.battle-intent[data-tone="venom"]{border-color:#739c55;color:#bde990}.battle-intent[data-tone="guard"]{border-color:#6e91bb;color:#b8d7ff}.battle-intent[data-tone="wave"]{border-color:#9a6ac2;color:#e1c2ff;box-shadow:0 0 12px rgba(157,105,205,.35)}
     @keyframes enemy-idle{50%{transform:translate(-50%,-5px) scale(1.03)}}
     @media(max-width:760px),(max-height:460px){.battle-stage{grid-template-columns:170px 1fr;min-height:140px;gap:8px}.hero-formation{padding:4px;gap:4px}.battle-hero{min-height:54px;padding:5px 4px 4px 42px}.hero-figure{transform:scale(.75);transform-origin:left bottom}.battle-hero small{font-size:.62rem}.enemy-card{padding-top:62px!important}.enemy-card::before{width:48px;height:51px}.enemy-card.boss::before{width:62px;height:62px}}
   `;
@@ -40,12 +40,6 @@
     return 'village';
   }
 
-  function intentFor(enemy) {
-    if (enemy.boss && battle?.round % 3 === 0) return 'Ruinous Wave';
-    if (enemy.poisonChance) return 'Venom Strike';
-    return enemy.attack > enemy.defense ? 'Heavy Attack' : 'Guarded Attack';
-  }
-
   function enhanceBattleScreen() {
     const windowEl = overlay?.querySelector('.battle-window');
     const enemyGrid = windowEl?.querySelector('.enemy-grid');
@@ -57,10 +51,13 @@
       const enemy = battle?.enemies?.[index];
       if (!enemy) return;
       card.dataset.kind = String(enemy.id || enemy.name || '').toLowerCase();
-      const intent = document.createElement('span');
-      intent.className = 'battle-intent';
-      intent.textContent = intentFor(enemy);
-      card.appendChild(intent);
+      const intent = enemy.intent || { label: 'Attack', icon: '⚔', tone: 'attack' };
+      const badge = document.createElement('span');
+      badge.className = 'battle-intent';
+      badge.dataset.tone = intent.tone || intent.type || 'attack';
+      badge.textContent = `${intent.icon || '⚔'} ${intent.label || 'Attack'}`;
+      badge.setAttribute('aria-label', `Enemy intent: ${intent.label || 'Attack'}`);
+      card.appendChild(badge);
     });
 
     const formation = document.createElement('div');
