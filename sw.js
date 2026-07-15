@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v13-protagonist-identity';
+const CACHE = 'ashen-crown-v14-save-recovery';
 const ASSETS = [
   './',
   './index.html',
@@ -22,6 +22,7 @@ const ASSETS = [
   './src/battle-effects.js',
   './src/ui-a.js',
   './src/character-creator.js',
+  './src/save-recovery.js',
   './src/ui-b.js',
   './assets/icons/icon.svg'
 ];
