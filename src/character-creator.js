@@ -55,7 +55,8 @@
 
   function defaultProtagonist(hero = null) {
     const template = hero || { name: 'Kael', id: 'kael', color: '#b65755', className: 'Ashblade' };
-    const classId = template.id === 'lyra' ? 'mooncantor' : template.id === 'rowan' ? 'thornranger' : template.id === 'mira' ? 'wardseeker' : 'ashblade';
+    const identity = template.templateId || template.id;
+    const classId = identity === 'lyra' ? 'mooncantor' : identity === 'rowan' ? 'thornranger' : identity === 'mira' ? 'wardseeker' : 'ashblade';
     return {
       name: template.name || 'Kael', pronouns: 'they', classId, originId: 'emberfall', body: 'athletic',
       skin: SKINS[1], hairStyle: classId === 'mooncantor' ? 'long' : 'short', hair: HAIRS[0], eyes: EYES[0],
@@ -71,12 +72,24 @@
   };
 
   normalizeState = function creatorAwareNormalize(raw) {
-    const normalized = baseNormalizeState(raw);
+    const rawParty = Array.isArray(raw?.party) ? raw.party : null;
+    const compatibleRaw = rawParty ? {
+      ...raw,
+      party: rawParty.map(hero => hero?.id === 'protagonist'
+        ? { ...hero, id: hero.templateId || 'kael' }
+        : hero)
+    } : raw;
+    const normalized = baseNormalizeState(compatibleRaw);
     normalized.protagonist = { ...defaultProtagonist(normalized.party[0]), ...(raw?.protagonist || {}) };
     normalized.flags = { ...(normalized.flags || {}), characterCreated: Boolean(raw?.flags?.characterCreated) };
     if (normalized.party[0]) {
+      const classTemplate = CREATOR_CLASSES[normalized.protagonist.classId]?.baseId || normalized.party[0].templateId || normalized.party[0].id || 'kael';
       normalized.party[0].appearance = { ...normalized.protagonist };
       normalized.party[0].name = normalized.protagonist.name || normalized.party[0].name;
+      if (normalized.flags.characterCreated || rawParty?.[0]?.id === 'protagonist') {
+        normalized.party[0].templateId = classTemplate;
+        normalized.party[0].id = 'protagonist';
+      }
     }
     return normalized;
   };
@@ -144,6 +157,8 @@
     const stats = currentStats();
     const created = baseNewState();
     const hero = makeHero(cls.baseId);
+    hero.templateId = cls.baseId;
+    hero.id = 'protagonist';
     hero.name = draft.name.trim() || 'Aren';
     hero.className = cls.name;
     hero.color = draft.accent || cls.color;
