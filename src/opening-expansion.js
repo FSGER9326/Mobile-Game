@@ -137,7 +137,9 @@
   };
 
   migrateOldSave = function openingAwareMigrate(old) {
-    return normalizeState(baseMigrateOldSave(old));
+    const migrated = baseMigrateOldSave(old);
+    migrated.flags = { ...(migrated.flags || {}), openingExpansionVersion: 0 };
+    return normalizeState(migrated);
   };
 
   objectiveText = function openingObjectiveText() {
