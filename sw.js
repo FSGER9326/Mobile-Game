@@ -1,4 +1,4 @@
-const CACHE = 'ashen-crown-v17-vector-art';
+const CACHE = 'ashen-crown-v18-brace-fix';
 const ASSETS = [
   './',
   './index.html',
