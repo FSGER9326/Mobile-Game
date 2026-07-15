@@ -1,19 +1,53 @@
 /* Character creator and major readability changes. */
 #game-canvas { image-rendering: auto; }
-.creator-screen { background: radial-gradient(circle at 24% 30%, rgba(71,91,121,.32), rgba(4,7,12,.92) 65%), linear-gradient(135deg, #101826, #090c14); }
-.creator-window { width: min(1180px, 97vw); max-height: 95vh; padding: clamp(12px, 2vw, 22px); overflow: auto; }
-.creator-header { display: flex; justify-content: space-between; gap: 18px; align-items: start; margin-bottom: 12px; }
+.creator-screen {
+  overflow: hidden;
+  background: radial-gradient(circle at 24% 30%, rgba(71,91,121,.32), rgba(4,7,12,.92) 65%), linear-gradient(135deg, #101826, #090c14);
+}
+.creator-window {
+  width: min(1180px, 100%);
+  height: min(95dvh, calc(100dvh - var(--safe-top) - var(--safe-bottom) - 8px));
+  max-height: none;
+  min-height: 0;
+  padding: clamp(10px, 2vw, 22px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.creator-header { flex: 0 0 auto; display: flex; justify-content: space-between; gap: 18px; align-items: start; margin-bottom: 12px; }
 .creator-header h1 { margin: 2px 0 4px; font-size: clamp(25px, 3.5vw, 42px); }
 .creator-header p { margin: 0; color: var(--muted); max-width: 720px; }
 .creator-kicker { color: #8eb4d9; letter-spacing: .18em; font-size: 11px; font-weight: 700; }
-.creator-layout { display: grid; grid-template-columns: minmax(230px, .72fr) minmax(520px, 1.65fr); gap: 16px; }
-.creator-preview-panel { position: sticky; top: 0; align-self: start; display: grid; gap: 8px; }
-#creator-preview { width: 100%; max-height: min(58vh, 430px); border: 1px solid rgba(201,165,104,.6); background: #0b101a; box-shadow: inset 0 0 30px rgba(0,0,0,.62), 0 12px 28px rgba(0,0,0,.42); }
+.creator-layout {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(180px, .72fr) minmax(0, 1.65fr);
+  gap: 16px;
+  overflow: hidden;
+}
+.creator-preview-panel { min-width: 0; min-height: 0; align-self: stretch; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; }
+#creator-preview { width: 100%; height: 100%; min-height: 0; border: 1px solid rgba(201,165,104,.6); background: #0b101a; box-shadow: inset 0 0 30px rgba(0,0,0,.62), 0 12px 28px rgba(0,0,0,.42); }
 .creator-summary { text-align: center; display: grid; gap: 3px; padding: 10px; background: rgba(7,10,17,.75); border: 1px solid rgba(201,165,104,.35); }
 .creator-summary h2 { margin: 0; }
 .creator-summary b { color: var(--gold-bright); }
 .creator-summary span, .creator-summary small { color: var(--muted); }
-.creator-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; align-content: start; }
+.creator-options {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  align-content: start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  padding: 1px 4px max(8px, var(--safe-bottom)) 1px;
+  scrollbar-gutter: stable;
+}
 .creator-section { padding: 10px; border: 1px solid rgba(201,165,104,.28); background: rgba(6,9,15,.58); min-width: 0; }
 .creator-section > h3, .creator-section > label { display: block; margin: 0 0 7px; color: var(--gold-bright); font-weight: 700; }
 .creator-section input { width: 100%; min-height: 44px; padding: 8px 11px; border-radius: 6px; border: 1px solid #777063; background: #111725; color: #fff3dc; font: 700 18px Georgia, serif; touch-action: manipulation; user-select: text; }
@@ -33,22 +67,41 @@
 .creator-statline { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .creator-statline span { padding: 8px; text-align: center; border: 1px solid rgba(201,165,104,.28); background: rgba(13,18,28,.78); color: var(--muted); }
 .creator-statline b { display: block; color: var(--gold-bright); font-size: 17px; }
-.creator-begin { grid-column: 1 / -1; min-height: 54px; font-size: 18px; background: linear-gradient(180deg, #6f5633, #30271e); }
+.creator-begin { grid-column: 1 / -1; min-height: 54px; font-size: 18px; background: linear-gradient(180deg, #6f5633, #30271e); position: sticky; bottom: 0; z-index: 2; box-shadow: 0 -8px 18px rgba(4,7,12,.88); }
+
 @media (max-width: 840px), (max-height: 520px) {
-  .creator-window { padding: 10px; }
+  .creator-window { width: 100%; height: calc(100dvh - var(--safe-top) - var(--safe-bottom)); padding: 8px; }
+  .creator-header { margin-bottom: 7px; gap: 8px; }
+  .creator-header h1 { font-size: clamp(19px, 4.5vw, 28px); margin-bottom: 0; }
   .creator-header p { display: none; }
-  .creator-layout { grid-template-columns: 190px minmax(420px, 1fr); gap: 9px; }
-  #creator-preview { max-height: 310px; }
+  .creator-layout { grid-template-columns: clamp(138px, 25vw, 190px) minmax(0, 1fr); gap: 8px; }
   .creator-summary { padding: 6px; font-size: 12px; }
-  .creator-options { gap: 6px; }
+  .creator-options { gap: 6px; padding-right: 2px; }
   .creator-section { padding: 7px; }
   .creator-card small { display: none; }
-  .creator-choice, .creator-card { min-height: 34px; padding: 6px 7px; font-size: 12px; }
-  .swatch { width: 27px; height: 27px; }
+  .creator-choice, .creator-card { min-height: 36px; padding: 7px; font-size: 12px; }
+  .swatch { width: 30px; height: 30px; }
   .creator-statline span { padding: 5px; font-size: 10px; }
   .creator-statline b { font-size: 14px; }
+  .creator-begin { min-height: 48px; }
 }
-@media (max-width: 650px) {
-  .creator-layout { grid-template-columns: 150px minmax(390px, 1fr); }
+
+@media (max-width: 620px) {
+  .creator-kicker { font-size: 9px; letter-spacing: .1em; }
+  .creator-layout { grid-template-columns: clamp(112px, 23vw, 145px) minmax(0, 1fr); gap: 6px; }
+  .creator-options { grid-template-columns: 1fr; }
+  .creator-statline { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .creator-class-grid, .creator-origin-grid { grid-template-columns: 1fr 1fr; }
+  .creator-summary span, .creator-summary small { display: none; }
+}
+
+@media (max-height: 390px) {
+  .creator-header { margin-bottom: 4px; }
+  .creator-header h1 { font-size: 18px; }
+  .creator-preview-panel { grid-template-rows: minmax(0, 1fr) auto; }
+  .creator-summary { padding: 4px; }
+  .creator-summary h2 { font-size: 15px; }
+  .creator-summary span, .creator-summary small { display: none; }
+  .creator-section { padding: 6px; }
+  .creator-choice, .creator-card { min-height: 34px; padding: 6px; }
 }
