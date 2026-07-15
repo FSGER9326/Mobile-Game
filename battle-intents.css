@@ -1,0 +1,39 @@
+.enemy-intent {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid rgba(224, 199, 145, .42);
+  border-radius: 6px;
+  background: rgba(8, 11, 17, .86);
+  box-shadow: inset 0 0 12px rgba(255,255,255,.025), 0 3px 9px rgba(0,0,0,.4);
+  font-size: 11px;
+  line-height: 1.05;
+  text-align: left;
+}
+
+.enemy-intent .intent-icon {
+  flex: 0 0 auto;
+  font-size: 18px;
+  line-height: 1;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.enemy-intent b,
+.enemy-intent small { display: block; }
+.enemy-intent small { margin-top: 2px; color: #f3dfbc; font-size: 10px; }
+.intent-attack { color: #e8cf9a; border-color: rgba(232,207,154,.48); }
+.intent-heavy { color: #ff967d; border-color: rgba(255,107,82,.68); background: rgba(55,18,18,.88); }
+.intent-venom { color: #aad77b; border-color: rgba(140,202,90,.58); background: rgba(18,40,24,.88); }
+.intent-guard { color: #9dc8e8; border-color: rgba(118,177,218,.58); background: rgba(17,34,50,.88); }
+.intent-wave { color: #d3a0ef; border-color: rgba(190,124,226,.64); background: rgba(42,20,54,.9); }
+
+@media (max-height: 540px) {
+  .enemy-intent { margin-top: 4px; padding: 4px 6px; font-size: 10px; }
+  .enemy-intent .intent-icon { font-size: 14px; }
+  .enemy-intent small { font-size: 9px; }
+}
