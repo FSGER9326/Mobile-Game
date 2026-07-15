@@ -50,7 +50,9 @@
       const intent = enemy.intent || chooseIntent(enemy, 0, battle.round);
 
       if (intent.type === 'guard') {
-        enemy.statuses.enemyGuard = 1;
+        // Two ticks are required because status durations are reduced at the end
+        // of this same enemy phase. One tick remains for the following hero turn.
+        enemy.statuses.enemyGuard = 2;
         messages.push(`${enemy.name} braces behind a hardened stance.`);
         continue;
       }
